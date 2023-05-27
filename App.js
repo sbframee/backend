@@ -12,6 +12,7 @@ const Cases = require("./Routers/Case");
 const Country = require("./Routers/country");
 const State = require("./Routers/state");
 const City = require("./Routers/city");
+const Priority = require("./Routers/priority");
 
 
 connectDB();
@@ -41,7 +42,8 @@ app.use("/documentList", DocumentList);
 app.use("/cases", Cases);
 app.use("/country", Country);
 app.use("/state", State);
-app.use("/city", City)
+app.use("/city", City);
+app.use("/priority", Priority);
 
 
 module.exports = app;

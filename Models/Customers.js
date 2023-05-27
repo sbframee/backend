@@ -16,6 +16,16 @@ const CustomersSchema = new mongoose.Schema({
   address: {
     type: String,
   },
+  mobile: [
+    {
+      label: {
+        type: String,
+      },
+      number: {
+        type: String,
+      },
+    },
+  ],
 });
 
 module.exports = mongoose.model("customers", CustomersSchema);
