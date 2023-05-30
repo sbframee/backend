@@ -9,7 +9,7 @@ router.post('/postCase',  async (req, res) => {
   try {
     let value = req.body;
     if (!value) res.json({ success: false, message: "Invalid Data" });
-    value = { ...value, order_id: uuid() };
+    value = { ...value, case_uuid: uuid() };
 
     let response = await Cases.create(value);
     if (response) {

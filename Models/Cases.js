@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
 
 const CasesSchema = new mongoose.Schema({
-  order_id: {
+  case_uuid: {
     type: String,
+  },
+  order_id: {
+    type: Number,
   },
   customer: {
     type: String,
