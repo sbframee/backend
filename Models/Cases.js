@@ -13,6 +13,12 @@ const CasesSchema = new mongoose.Schema({
   priority: {
     type: String,
   },  
+  case_type: {
+    type: String,
+  },
+  case_name: {
+    type: String,
+  }
 });
 
 module.exports = mongoose.model("cases", CasesSchema);
