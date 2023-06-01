@@ -31,6 +31,24 @@ router.get("/GetCustomerList", async (req, res) => {
   }
 });
 
+router.get('/getCustomerDetails/:customer_uuid', async (req, res) => {
+  const customer_uuid = req.params.customer_uuid;
+
+  try {
+    const customerDetails = await Customers.findOne({ customer_uuid });
+
+    if (customerDetails) {
+      res.json({ success: true, result: customerDetails });
+    } else {
+      res.json({ success: false, message: 'Customer details not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.json({ success: false, message: 'Error fetching customer details' });
+  }
+});
+
+
 router.put("/putCustomers", async (req, res) => {
   try {
     let result = [];

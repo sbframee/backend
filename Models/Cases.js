@@ -7,7 +7,7 @@ const CasesSchema = new mongoose.Schema({
   order_id: {
     type: Number,
   },
-  customer: {
+  customer_uuid: {
     type: String,
   },
   priority: {

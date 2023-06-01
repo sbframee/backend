@@ -3,6 +3,7 @@ const router = express.Router();
 const { v4: uuid } = require("uuid");
 const Cases = require("../Models/Cases");
 const Firms = require("../Models/Firms");
+const Customers = require("../Models/Customers");
 
 
 router.post('/postCase',  async (req, res) => {
@@ -47,19 +48,39 @@ router.get("/latest", async (req, res) => {
   }
 });
 
-router.get('/GetCaseDetails/:selectedOrderId', (req, res) => {
+router.get('/GetCaseDetails/:selectedOrderId', async (req, res) => {
   const selectedOrderId = req.params.selectedOrderId;
 
-  // TODO: Fetch the case details from the database or any other data source based on the selectedOrderId
+  try {
+    // Fetch the case details from the database based on the selectedOrderId
+    const caseDetails = await Cases.findOne({ order_id: selectedOrderId }).exec();
 
-  // Example response with dummy case details
-  const caseDetails = {
-    order_id: selectedOrderId,
-    // Include other case details as needed
-  };
+    if (!caseDetails) {
+      return res.status(404).json({ error: 'Case details not found' });
+    }
 
-  // Send the case details as the response
-  res.json({ result: caseDetails });
+    // Fetch the customer details based on the retrieved customer_uuid
+    const customerDetails = await Customers.findOne({ customer_uuid: caseDetails.customer_uuid }).exec();
+
+    if (!customerDetails) {
+      return res.status(404).json({ error: 'Customer details not found' });
+    }
+
+    // Include the customer_uuid and other case details in the response
+    const response = {
+      order_id: caseDetails.order_id,
+      customer_uuid: caseDetails.customer_uuid,
+      customer_name: customerDetails.customer_name,
+      mobile: customerDetails.mobile,
+      // Include other case details as needed
+    };
+
+    // Send the case details as the response
+    res.json({ result: response });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 router.put("/putCases/:orderId", async (req, res) => {
